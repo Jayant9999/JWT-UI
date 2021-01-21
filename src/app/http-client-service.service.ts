@@ -35,6 +35,16 @@ export class User {
   ) {}
 }
 
+export class contactMail {
+  constructor(
+    public id?: number,
+    public name?: string,
+    public contactPersonEmail?: string,
+    public subject?: string,
+    public message?: string
+  ) {}
+}
+
 export class attendance {
   constructor(
     public compid?: string,
@@ -104,6 +114,21 @@ export class result {
   ) {}
 }
 
+var requestBody: any = {
+  headers: {
+    'Content-type': 'application/json',
+    'X-CSCAPI-KEY': 'OFI5cHlMUFExZm5mbW9vWFl0T0lyRnZNZkNIUWZkc1RUSmlzYVlFNQ==',
+    'Access-Control-Allow-Origin': '*',
+  },
+};
+
+export class Countries {
+  constructor(public id: number, public name: string, public iso2: string) {}
+}
+export class City {
+  constructor(public id: number) {}
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -119,14 +144,10 @@ export class HttpClientServiceService {
   }
 
   validate() {
-    return this.httpClient
-      .get<result[]>('http://localhost:8080/auth/validate', this.getHeaders())
-      .subscribe(
-        () => {},
-        () => {
-          this.router.navigate(['login']);
-        }
-      );
+    return this.httpClient.get<result[]>(
+      'http://localhost:8080/auth/validate',
+      this.getHeaders()
+    );
   }
 
   login(user: User) {
@@ -237,5 +258,46 @@ export class HttpClientServiceService {
       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     });
     return { headers: httpHeader };
+  }
+
+  sendQuery(cm: contactMail) {
+    return this.httpClient.post<contactMail>(
+      'http://localhost:8080/insertQuery',
+      cm
+    );
+  }
+
+  getCountries() {
+    return this.httpClient.get<Countries[]>(
+      'https://api.countrystatecity.in/v1/countries',
+      requestBody
+    );
+  }
+  getState(code: string) {
+    return this.httpClient.get<Countries[]>(
+      'https://api.countrystatecity.in/v1/countries/' + code + '/states',
+      requestBody
+    );
+  }
+
+  getCity(codec: string, code: string) {
+    return this.httpClient.get<Countries[]>(
+      'https://api.countrystatecity.in/v1/countries/' +
+        codec +
+        '/states/' +
+        code +
+        '/cities',
+      requestBody
+    );
+  }
+
+  GetChildByUid(uid: string) {
+    return this.httpClient.get<student[]>(
+      'http://localhost:8080/getStudent/' + uid
+    );
+  }
+
+  logout() {
+    return this.httpClient.get<void>('http://localhost:8080/auth/logout');
   }
 }

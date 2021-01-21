@@ -2054,7 +2054,7 @@
                     </div>
                     <div   class="col-2 ">
                         <h4 style="color: #103453;"><b>Date :</b></h4>
-                        <input [(ngModel)]="attDate" type="text"  class="form-control" type="text">
+                        <input [(ngModel)]="attDate" type="date"  class="form-control" >
                     </div>
 
                 </div>
@@ -2087,24 +2087,38 @@
             <div *ngIf=isOther class="row m-3 mt-5 ">
 
                 <div class="col-10 d-flex justify-content-center align-items-center">
-                    <h3 style="color: #103453;"><b>Student's Attendance</b></h3>
+                    <h3 style="color: #103453" class="d-flex justify-content-center align-items-center"><b>Student's Attendance</b></h3>
                 </div>
               
             </div>
+
+            <div class ="row m-3     d-flex justify-content-end align-items-end" >
+
+                <div *ngIf="isP"  class="col">
+                    <label style="color: white;">Attendance</label>
+                    <select class="form-control" id="#" [(ngModel)]="stu.user_id_student" (change)="getSAttendence()">
+                        <option selected value="0">Choose children</option>
+                        <option *ngFor="let child of students " [value]="child.user_id_student">{{child.fName}}</option>
+                    </select>
+                </div>
+
+            </div>
+
+
             <div *ngIf="isOther" class="row m-5" >
                <div class="col">
                 <table class="table">
                     <thead style="background-color: #103453;color: white;">
                       <tr>
-                        <th scope="col">Sr.No</th>
-                        <th scope="col">Date</th>
+                
+                        <th scope="col" class="d-flex justify-content-center align-items-center">Date</th>
                        
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let item of att" [ngClass]="{'present':item.attendance_colour === 'green' ,'leave':item.attendance_colour === 'orange' ,'absent':item.attendance_colour === 'red' }">
-                        <th scope="row">1</th>
-                        <td>{{item.att_date}}</td>
+                      
+                        <td style="font-size: larger; font-style: italic; font-weight: bold" class="d-flex justify-content-center align-items-center">{{item.att_date}}</td>
                       </tr>
                     </tbody>
                   </table>

@@ -6,7 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.HttpClientServiceService = exports.result = exports.notice = exports.student = exports.faculty = exports.attendance = exports.User = void 0;
+exports.HttpClientServiceService = exports.City = exports.Countries = exports.result = exports.notice = exports.student = exports.faculty = exports.attendance = exports.contactMail = exports.User = void 0;
 var core_1 = require("@angular/core");
 var User = /** @class */ (function () {
     function User(userId, fName, lName, email_id, mobile_no, address, country, city, state, role_id, fName_f, lName_f, email_id_f, mobile_no_f, dob, gender, student_class, faculty_class, joining_date, password, isApproved, status, securityQuestionId_S, securityQuestionId_F, sQanswer_S, sQanswer_F, security_q_A, security_q_id) {
@@ -43,6 +43,17 @@ var User = /** @class */ (function () {
     return User;
 }());
 exports.User = User;
+var contactMail = /** @class */ (function () {
+    function contactMail(id, name, contactPersonEmail, subject, message) {
+        this.id = id;
+        this.name = name;
+        this.contactPersonEmail = contactPersonEmail;
+        this.subject = subject;
+        this.message = message;
+    }
+    return contactMail;
+}());
+exports.contactMail = contactMail;
 var attendance = /** @class */ (function () {
     function attendance(compid, att_date, student_id, student_class, present, studentleave, attendance_colour, user_id_student, dOB, fname, lanme, gender, user_id_parent, status) {
         if (status === void 0) { status = 'red'; }
@@ -118,6 +129,29 @@ var result = /** @class */ (function () {
     return result;
 }());
 exports.result = result;
+var requestBody = {
+    headers: {
+        'Content-type': 'application/json',
+        'X-CSCAPI-KEY': 'OFI5cHlMUFExZm5mbW9vWFl0T0lyRnZNZkNIUWZkc1RUSmlzYVlFNQ==',
+        'Access-Control-Allow-Origin': '*'
+    }
+};
+var Countries = /** @class */ (function () {
+    function Countries(id, name, iso2) {
+        this.id = id;
+        this.name = name;
+        this.iso2 = iso2;
+    }
+    return Countries;
+}());
+exports.Countries = Countries;
+var City = /** @class */ (function () {
+    function City(id) {
+        this.id = id;
+    }
+    return City;
+}());
+exports.City = City;
 var HttpClientServiceService = /** @class */ (function () {
     function HttpClientServiceService(httpClient) {
         this.httpClient = httpClient;
@@ -167,6 +201,21 @@ var HttpClientServiceService = /** @class */ (function () {
     };
     HttpClientServiceService.prototype.submitAttendance = function (att) {
         return this.httpClient.post("http://localhost:8080/submit_Attendance", att);
+    };
+    HttpClientServiceService.prototype.sendQuery = function (cm) {
+        return this.httpClient.post("http://localhost:8080/insertQuery", cm);
+    };
+    HttpClientServiceService.prototype.getCountries = function () {
+        return this.httpClient.get("https://api.countrystatecity.in/v1/countries", requestBody);
+    };
+    HttpClientServiceService.prototype.getState = function (code) {
+        return this.httpClient.get("https://api.countrystatecity.in/v1/countries/" + code + "/states", requestBody);
+    };
+    HttpClientServiceService.prototype.getCity = function (codec, code) {
+        return this.httpClient.get("https://api.countrystatecity.in/v1/countries/" + codec + "/states/" + code + "/cities", requestBody);
+    };
+    HttpClientServiceService.prototype.GetChildByUid = function (uid) {
+        return this.httpClient.get("http://localhost:8080/getStudent/" + uid);
     };
     HttpClientServiceService = __decorate([
         core_1.Injectable({

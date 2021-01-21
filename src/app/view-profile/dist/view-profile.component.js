@@ -22,6 +22,7 @@ var ViewProfileComponent = /** @class */ (function () {
         var id = sessionStorage.getItem('id');
         this.HttpClientService.getUser(id).subscribe(function (res) {
             _this.user = res;
+            _this.user.dob = _this.user.dob.slice(0, 2) + "-" + _this.user.dob.slice(2, 4) + "-" + _this.user.dob.slice(4, 8);
         });
     };
     //   if(this.user.role_id == 1)

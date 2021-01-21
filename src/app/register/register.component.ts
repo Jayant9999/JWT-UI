@@ -1,13 +1,18 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClientServiceService, User } from '../http-client-service.service';
+import { Countries, HttpClientServiceService, User } from '../http-client-service.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
+  providers: [DatePipe]
 })
 export class RegisterComponent implements OnInit {
-
+  countries: Countries[];
+  state: Countries[];
+  city: Countries[];
+  futureDateError: boolean;
 
   /* isDisplay = false;
   Display()
@@ -18,6 +23,7 @@ export class RegisterComponent implements OnInit {
  */
   isDisplay = false;
   isFaculty = false;
+
 
   onOptionsSelected(value: string) {
     if (value == "Student") {
@@ -52,10 +58,15 @@ export class RegisterComponent implements OnInit {
 
   }
 
-
+  onClassSelected(cls: number) {
+    this.user.student_class = cls;
+  }
+  onClassSelectedFaculty(cls: number) {
+    this.user.faculty_class = cls;
+  }
 
   onSecurityOptionsSelected_f(value: string) {
-    alert("sF")
+
     if (value == "1") {
       this.user.securityQuestionId_F = "1";
     }
@@ -67,30 +78,28 @@ export class RegisterComponent implements OnInit {
       this.user.securityQuestionId_F = "4";
     } else if (value == "5") {
       this.user.securityQuestionId_F = "5";
-      alert(this.user.securityQuestionId_F);
+
     }
 
   }
 
   rePassword: string;
-
   user: User = new User(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-
-  constructor(private httpClientService: HttpClientServiceService, private router: Router) { }
+  constructor(private datePipe: DatePipe, private httpClientService: HttpClientServiceService, private router: Router) { }
 
   ngOnInit() {
-
-
     if (sessionStorage.getItem('id')) {
       this.router.navigate(['userHome']);
     }
-
-
+    this.getCountries();
   }
 
   Register() {
+    this.user.dob = this.datePipe.transform(this.user.dob, 'ddMMyyyy');
+
+    // alert(this.user.dob);
     this.httpClientService.Register(this.user).subscribe(res => {
-      alert("Hieee");
+      //  alert("Successfully Registered");
       this.user.fName = "";
       this.user.lName = "";
       this.user.email_id = "";
@@ -111,6 +120,34 @@ export class RegisterComponent implements OnInit {
       console.log(this.user.fName, this.user.lName, this.user.email_id, this.user.mobile_no, this.user.address, this.user.state);
     })
   }
+  getCountries() {
+    this.httpClientService.getCountries().subscribe(res => {
+      this.countries = <Countries[]><unknown>res;
+      console.log(res);
+    });
+  }
+
+  getState() {
+    this.httpClientService.getState(this.user.country).subscribe(res => {
+      this.state = <Countries[]><unknown>res;
+      console.log(res);
+    });
+  }
+
+  getCity() {
+    this.httpClientService.getCity(this.user.country, this.user.state).subscribe(res => {
+
+
+      this.city = <Countries[]><unknown>res;
+
+      console.log(res);
+
+    });
+
+  }
+
+
+
 
 
 }

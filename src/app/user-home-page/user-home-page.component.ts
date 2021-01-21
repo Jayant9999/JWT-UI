@@ -145,6 +145,8 @@ export class UserHomePageComponent implements OnInit {
 
   logout() {
     sessionStorage.removeItem('id');
+    sessionStorage.removeItem('token');
+    this.Http.logout();
     this.router.navigate(['homepage']);
   }
 

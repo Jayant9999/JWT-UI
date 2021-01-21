@@ -25,7 +25,7 @@ var LoginComponent = /** @class */ (function () {
         this.HttpClientService.login(this.user).subscribe(function (res) {
             if (res != null) {
                 if (res.role_id == 0 && res.isApproved == 0) {
-                    alert("Waiting for approval");
+                    // alert("Waiting for approval");
                     _this.router.navigate(['homepage']);
                 }
                 else if (res.role_id == 0 && res.isApproved == 1) {
@@ -33,7 +33,7 @@ var LoginComponent = /** @class */ (function () {
                     _this.router.navigate(['userHome']);
                 }
                 if (res.role_id == 1 && res.isApproved == 0) {
-                    alert("Waiting for approval");
+                    // alert("Waiting for approval");
                     _this.router.navigate(['homepage']);
                 }
                 else if (res.role_id == 1 && res.isApproved == 1) {
@@ -41,7 +41,7 @@ var LoginComponent = /** @class */ (function () {
                     _this.router.navigate(['userHome']);
                 }
                 if (res.role_id == 2 && res.isApproved == 0) {
-                    alert("Waiting for approval");
+                    // alert("Waiting for approval");
                     _this.router.navigate(['homepage']);
                 }
                 else if (res.role_id == 2 && res.isApproved == 1) {
@@ -49,7 +49,7 @@ var LoginComponent = /** @class */ (function () {
                     _this.router.navigate(['userHome']);
                 }
                 if (res.role_id == 3 && res.isApproved == 0) {
-                    alert("Waiting for approval");
+                    //alert("Waiting for approval");
                     _this.router.navigate(['homepage']);
                 }
                 else if (res.role_id == 3 && res.isApproved == 1) {
@@ -58,7 +58,7 @@ var LoginComponent = /** @class */ (function () {
                 }
             }
             else {
-                alert("Wrong Credentials");
+                //alert("Wrong Credentials");
             }
         });
     };

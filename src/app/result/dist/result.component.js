@@ -7,13 +7,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 exports.__esModule = true;
 exports.ResultComponent = void 0;
+var common_1 = require("@angular/common");
 var core_1 = require("@angular/core");
 var http_client_service_service_1 = require("../http-client-service.service");
 var ResultComponent = /** @class */ (function () {
-    function ResultComponent(Http, router) {
+    function ResultComponent(Http, router, datePipe) {
         this.Http = Http;
         this.router = router;
+        this.datePipe = datePipe;
+        this.isP = false;
         this.isStu = false;
+        this.stu = new http_client_service_service_1.student;
         this.Faculty = new http_client_service_service_1.faculty(null, null, null, null, null);
         this.isDisplay = false;
     }
@@ -25,11 +29,23 @@ var ResultComponent = /** @class */ (function () {
                 _this.isDisplay = true;
                 _this.getStudentToUpdateResult();
             }
-            else {
+            else if (_this.role_id == 2) {
                 _this.isStu = true;
                 _this.isDisplay = false;
                 _this.getres();
             }
+            else if (_this.role_id == 3) {
+                _this.isStu = true;
+                _this.isDisplay = false;
+                _this.isP = true;
+            }
+        });
+        this.GetChildByUid();
+    };
+    ResultComponent.prototype.GetChildByUid = function () {
+        var _this = this;
+        this.Http.GetChildByUid(sessionStorage.getItem('id')).subscribe(function (res) {
+            _this.Student = res;
         });
     };
     ResultComponent.prototype.getres = function () {
@@ -57,6 +73,7 @@ var ResultComponent = /** @class */ (function () {
         });
     };
     ResultComponent.prototype.classResUpdate = function () {
+        this.examDate = this.datePipe.transform(this.examDate, 'ddMMyyyy');
         for (var i = 0; i < this.updateResult.length; i++) {
             this.updateResult[i].exam_date = this.examDate;
             this.updateResult[i].subject = this.examSubject;
@@ -65,11 +82,18 @@ var ResultComponent = /** @class */ (function () {
         this.Http.updateResult(this.updateResult).subscribe(function (res) {
         });
     };
+    ResultComponent.prototype.getSMarksheet = function () {
+        var _this = this;
+        this.Http.getResult(this.stu.user_id_student).subscribe(function (res) {
+            _this.Result = res;
+        });
+    };
     ResultComponent = __decorate([
         core_1.Component({
             selector: 'app-result',
             templateUrl: './result.component.html',
-            styleUrls: ['./result.component.css']
+            styleUrls: ['./result.component.css'],
+            providers: [common_1.DatePipe]
         })
     ], ResultComponent);
     return ResultComponent;

@@ -52,10 +52,10 @@ export class ForgetPasswordComponent implements OnInit {
   forget() {
     this.HttpClientService.forget(this.user).subscribe(res => {
       if (res != 0) {
-        alert("Password Successfully Changed");
+        // alert("Password Successfully Changed");
         this.router.navigate(['login']);
       } else {
-        alert("Invalid Inputs");
+        // alert("Invalid Inputs");
       }
     })
   }

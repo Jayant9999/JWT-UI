@@ -11,24 +11,55 @@ import { AttendanceUpdateComponent } from './attendance-update/attendance-update
 import { attendance } from './http-client-service.service';
 import { AttendanceComponent } from './attendance/attendance.component';
 import { ResultComponent } from './result/result.component';
+import { RouteGaurdService } from './route-gaurd.service';
 const routes: Routes = [
-  { path: '', component: HomepageComponent },
-  { path: 'homepage', component: HomepageComponent },
+  { path: '', component: HomepageComponent, canActivate: [RouteGaurdService] },
+  {
+    path: 'homepage',
+    component: HomepageComponent,
+    canActivate: [RouteGaurdService],
+  },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'forget', component: ForgetPasswordComponent },
-  { path: 'viewProfile', component: ViewProfileComponent },
-  { path: 'userHome', component: UserHomePageComponent },
-  { path: 'noticeUpdate', component: NoticeUpdateComponent },
-  { path: 'applyAttendance', component: AttendanceUpdateComponent },
-  { path: 'attendance', component: AttendanceComponent },
-  { path: 'result', component: ResultComponent }
-
-
+  {
+    path: 'forget',
+    component: ForgetPasswordComponent,
+    canActivate: [RouteGaurdService],
+  },
+  {
+    path: 'viewProfile',
+    component: ViewProfileComponent,
+    canActivate: [RouteGaurdService],
+  },
+  {
+    path: 'userHome',
+    component: UserHomePageComponent,
+    canActivate: [RouteGaurdService],
+  },
+  {
+    path: 'noticeUpdate',
+    component: NoticeUpdateComponent,
+    canActivate: [RouteGaurdService],
+  },
+  {
+    path: 'applyAttendance',
+    component: AttendanceUpdateComponent,
+    canActivate: [RouteGaurdService],
+  },
+  {
+    path: 'attendance',
+    component: AttendanceComponent,
+    canActivate: [RouteGaurdService],
+  },
+  {
+    path: 'result',
+    component: ResultComponent,
+    canActivate: [RouteGaurdService],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -2058,7 +2058,7 @@
                     
                             <div class="col">
                                 <label >Date </label>
-                                <input [(ngModel)]="examDate" type="text" class="form-control" placeholder="dd/mm/yyyy">
+                                <input [(ngModel)]="examDate" type="date" class="form-control" placeholder="dd/mm/yyyy">
                             </div>
                             <div class="col">
                                 <label>Subject </label>
@@ -2113,7 +2113,14 @@
                          </div>
                      </div>
                  
-
+                     <div *ngIf=isP class="col">
+                        <label style="color: white;">Marksheet</label>
+                        <select class="form-control" id="#" [(ngModel)]="stu.user_id_student" (change)="getSMarksheet()">
+                            <option selected value="0">Choose children</option>
+                            <option *ngFor="let child of Student" [value]="child.user_id_student">{{child.fName}}</option>
+                        </select>
+                    </div>
+                
 
                       <div *ngIf=isStu class="row m-3 mt-5 d-flex justify-content-center align-items-center ">
                            <div class="col">

@@ -11,7 +11,5 @@ export class AppComponent {
   title = 'WEBApp';
   faCoffee = faCoffee;
 
-  constructor(private http: HttpClientServiceService) {
-    this.http.validate();
-  }
+  constructor() {}
 }

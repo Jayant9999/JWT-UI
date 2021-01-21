@@ -1595,7 +1595,7 @@
             </div>
             <div class="col-3">
                 <label>Date Of Birth</label>
-                <input type="text" class="form-control" [(ngModel)]="user.dob" placeholder="dd/mm/yyyy">
+                <input  type="date" class="form-control"  [(ngModel)]="user.dob" placeholder="dd/mm/yyyy">
             </div>
         </div>
         <div class="row  m-3">
@@ -1606,14 +1606,14 @@
                         <div class="col-sm-10">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1"
-                                    value="option1" [(ngModel)]="user.gender">
+                                    value="Male" [(ngModel)]="user.gender">
                                 <label class="form-check-label" for="gridRadios1">
                                     Male
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
-                                    value="option2" [(ngModel)]="user.gender">
+                                    value="Female" [(ngModel)]="user.gender">
                                 <label class="form-check-label" for="gridRadios2">
                                     Female
                                 </label>
@@ -1636,19 +1636,33 @@
 
         <div class="row  m-3">
 
+           
             <div class="col">
-                <label for="inputAddress">Country</label>
-                <input type="text" [(ngModel)]="user.country" class="form-control">
+                <label  id="CustomID" for="inputState">Country</label>
+                <select class="form-control" id="Role" [(ngModel)]="user.country" (change)="getState()">
+                    <option selected value="0">Choose...</option>
+                    <option  *ngFor="let con of countries"  [value]="con.iso2">{{con.name}}</option>
+                   
+                </select>
             </div>
             <div class="col">
-                <label for="inputState">State</label>
-                <input type="text" [(ngModel)]="user.state" class="form-control">
+                <label  id="CustomID" for="inputState">State</label>
+                <select class="form-control" id="Role" [(ngModel)]="user.state" (change)="getCity()">
+                    <option selected value="0">Choose...</option>
+                    <option  *ngFor="let con of state"  [value]="con.iso2">{{con.name}}</option>
+                   
+                </select>
             </div>
 
-            <div class="col-3">
-                <label for="inputCity">City</label>
-                <input type="text" [(ngModel)]="user.city" class="form-control">
+            <div class="col">
+                <label  id="CustomID" for="inputState">City</label>
+                <select class="form-control" id="Role" [(ngModel)]="user.city">
+                    <option selected value="0">Choose...</option>
+                    <option  *ngFor="let con of city"  [value]="con.name">{{con.name}}</option>
+                   
+                </select>
             </div>
+
         </div>
         <div class="row m-3 justify-content-start">
             <div class="col-4">
@@ -1690,11 +1704,23 @@
                 </select>
             </div>
           
-            
             </div> 
-            <div class="row  m-3">
-            <div *ngIf=isDisplay class="col-4"> <label>Class</label>
-                <input type="text" class="form-control" [(ngModel)]="user.student_class">
+            <div *ngIf=isDisplay class="row  m-3">
+            <div  class="col-4"> <label>Class</label>
+                <select class="form-control" id="class" #myclass (change)="onClassSelected(myclass.value)">
+                    <option value = 1 >1</option>
+                    <option value = 2 >2</option>
+                    <option value = 3 >3</option>
+                    <option value = 4 >4</option>
+                    <option value = 5 >5</option>
+                    <option value = 6 >6</option>
+                    <option value = 7 >7</option>
+                    <option value = 8 >8</option>
+                    <option value = 9 >9</option>
+                    <option value = 10 >10</option>
+                    <option value = 11 >11</option>
+                    <option value = 12 >12</option>
+                </select>
             </div>
             <div *ngIf=isDisplay class="col"><label for="inputEmail4">Father's Mobile No:</label>
                 <input type="text" class="form-control" [(ngModel)]="user.mobile_no_f " placeholder="Contact number..">
@@ -1703,11 +1729,24 @@
             <div class="row  m-3">  
                <div *ngIf=isFaculty class="col-2">
                 <label>Teaching Class</label>
-                <input type="text" class="form-control" [(ngModel)]="user.faculty_class">
+                <select class="form-control" id="class" #myFacultyclass (change)="onClassSelectedFaculty(myFacultyclass.value)">
+                    <option value = 1 >1</option>
+                    <option value = 2 >2</option>
+                    <option value = 3 >3</option>
+                    <option value = 4 >4</option>
+                    <option value = 5 >5</option>
+                    <option value = 6 >6</option>
+                    <option value = 7 >7</option>
+                    <option value = 8 >8</option>
+                    <option value = 9 >9</option>
+                    <option value = 10 >10</option>
+                    <option value = 11 >11</option>
+                    <option value = 12 >12</option>
+                </select>
                </div>
             <div *ngIf=isFaculty class="col-3">
                 <label>Joining Date</label>
-                <input type="text" [(ngModel)]="user.joining_date" class="form-control" placeholder="dd/mm/yyyy">
+                <input type="date" [(ngModel)]="user.joining_date" class="form-control" placeholder="dd/mm/yyyy">
             </div>
             </div>
         

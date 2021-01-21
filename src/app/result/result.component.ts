@@ -1,4 +1,5 @@
 
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { faculty, HttpClientServiceService, result, student } from '../http-client-service.service';
@@ -6,21 +7,24 @@ import { faculty, HttpClientServiceService, result, student } from '../http-clie
 @Component({
   selector: 'app-result',
   templateUrl: './result.component.html',
-  styleUrls: ['./result.component.css']
+  styleUrls: ['./result.component.css'],
+  providers: [DatePipe]
 })
 export class ResultComponent implements OnInit {
 
+  isP = false;
   examDate: string;
   examSubject: string;
   maxMarks: number;
   isStu = false;
   Student: student[];
+  stu: student = new student;
   Result: result[];
   updateResult: result[];
   role_id: number;
   Faculty: faculty = new faculty(null, null, null, null, null);
   isDisplay = false;
-  constructor(private Http: HttpClientServiceService, private router: Router) { }
+  constructor(private Http: HttpClientServiceService, private router: Router, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.Http.getUser(sessionStorage.getItem('id')).subscribe(res => {
@@ -29,13 +33,26 @@ export class ResultComponent implements OnInit {
         this.isDisplay = true;
         this.getStudentToUpdateResult();
       }
-      else {
+      else if (this.role_id == 2) {
         this.isStu = true;
         this.isDisplay = false;
         this.getres();
+      } else if (this.role_id == 3) {
+        this.isStu = true;
+        this.isDisplay = false;
+        this.isP = true;
       }
     })
 
+    this.GetChildByUid();
+
+  }
+
+  GetChildByUid() {
+    this.Http.GetChildByUid(sessionStorage.getItem('id')).subscribe(res => {
+      this.Student = res;
+
+    })
   }
 
 
@@ -71,6 +88,7 @@ export class ResultComponent implements OnInit {
   }
 
   classResUpdate() {
+    this.examDate = this.datePipe.transform(this.examDate, 'ddMMyyyy');
     for (var i = 0; i < this.updateResult.length; i++) {
       this.updateResult[i].exam_date = this.examDate;
       this.updateResult[i].subject = this.examSubject;
@@ -83,6 +101,16 @@ export class ResultComponent implements OnInit {
     })
 
   }
+
+
+  getSMarksheet() {
+    this.Http.getResult(this.stu.user_id_student).subscribe(res => {
+      this.Result = res;
+
+    })
+  }
+
+
 
 }
 
